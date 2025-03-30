@@ -1,0 +1,77 @@
+(SIMILAR TO SQL BUT THIS IS POST GRACE CODE)
+
+CREATE DATABASE student_management;
+
+CREATE TABLE students(
+  student_id SERIAL PRIMARY KEY,  -- SERIAL in PostgreSQL for auto-increment
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  email VARCHAR(255) UNIQUE,
+  enrollment_date DATE DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE courses(
+  course_id SERIAL PRIMARY KEY,
+  course_name VARCHAR(255) NOT NULL,  -- Using VARCHAR for name
+  department_id INT,
+  credits INT NOT NULL
+);
+
+CREATE TABLE enrollments(
+  enrollment_id SERIAL PRIMARY KEY,
+  student_id INT REFERENCES students
+  (student_id) ON DELETE CASCADE,
+  course_id INT REFERENCES courses(course_id)
+  ON DELETE CASCADE,      --RELATED SABAI DELETE LIKE NISCHAL SHRESTHA KO SABAI DELETE (NULL CASCADE USED IF SABAI DELETE GARNA MAN XAINA BHANE)
+  grade VARCHAR(2)
+);
+
+CREATE TABLE departments(
+  department_id SERIAL PRIMARY KEY,
+  department_name VARCHAR(100) NOT NULL
+);
+
+
+
+-- INSERTING DATA
+
+-- Insert data into the departments table
+INSERT INTO departments (department_name)
+VALUES 
+  ('Computer Science'),
+  ('Electrical Engineering'),
+  ('Mathematics'),
+  ('Physics'),
+  ('Biology');
+
+-- Insert data into the students table
+INSERT INTO students (first_name, last_name, email, enrollment_date)
+VALUES 
+  ('John', 'Doe', 'john.doe@example.com', '2024-01-15'),
+  ('Jane', 'Smith', 'jane.smith@example.com', '2023-09-05'),
+  ('Alice', 'Johnson', 'alice.johnson@example.com', '2022-08-23'),
+  ('Bob', 'Brown', 'bob.brown@example.com', '2024-03-10');
+
+-- Insert data into the courses table
+INSERT INTO courses (course_name, department_id, credits)
+VALUES 
+  ('Introduction to Programming', 1, 3),
+  ('Data Structures and Algorithms', 1, 4),
+  ('Digital Circuits', 2, 3),
+  ('Linear Algebra', 3, 3),
+  ('Mechanics', 4, 4),
+  ('Genetics', 5, 3);
+
+-- Insert data into the enrollments table with grades between '11' and '12'
+INSERT INTO enrollments (student_id, course_id, grade)
+VALUES 
+  (1, 1, '11'),
+  (1, 2, '12'),
+  (2, 1, '11'),
+  (2, 3, '12'),
+  (3, 4, '11'),
+  (4, 5, '12'),
+  (4, 6, '12'),
+  (1, 3, '11');
+
+  
